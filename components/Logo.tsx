@@ -19,11 +19,11 @@ function Logo({ fontSize = "2xl", iconSize = 40 }: {
         </div>
         <div>
             <span className="bg-gradient-to-r from-emrald-500 to-emrald-600 bg-clip-text">
-                Flow
+                folio
             </span>
         
         <span className="text-stone-700 dark:text-stone-300">
-            Scrape
+            .ai
         </span>
         </div>
     </Link>
