@@ -24,40 +24,31 @@ import {
 } from "@/components/ui/dropdown-menu";
 import TooltipWrapper from "@/components/TooltipWrapper";
 import DeleteWorkflowDialog from "./DeleteWorkflowDialog";
+import WorkflowStatusIcon from "./WorkflowStatusIcon";
 const statusColors = {
   [WorkflowStatus.DRAFT]: "bg-yellow-100 text-yellow-800",
-  [WorkflowStatus.PUBLISHED]: "bg-green-100 text-green-800",
+  [WorkflowStatus.PENDING]: "bg-green-100 text-green-800",
+  [WorkflowStatus.COMPLETE]: "bg-blue-100 text-blue-800",
 };
 
 function WorkflowCard({ workflow }: { workflow: Workflow }) {
   const isDraft = workflow.status === WorkflowStatus.DRAFT;
   return (
-    <Card className="border border-separate shadow-sm rounded-lg overflow-hidden hover:shadow-md dark:shadow-primary/30">
+    <Card className="border border-separate shadow-sm rounded-md overflow-hidden hover:shadow-md dark:shadow-primary/30">
       <CardContent className="p-4 flex items-center justify-between h-[100px]">
         <div className="flex items-center justify-end space-x-3">
-          <div
-            className={cn(
-              "w-10 h-10 rounded-full flex items-center justify-center",
-              statusColors[workflow.status as WorkflowStatus]
-            )}
-          >
-            {isDraft ? (
-              <FileTextIcon className="h-5 w-5" />
-            ) : (
-              <PlayIcon className="h-5 w-5 text-white" />
-            )}
-          </div>
+          <WorkflowStatusIcon key={workflow.id} workflow={workflow}/>
           <div>
             <h3 className="text-base font-bold text-muted-foreground flex items-center">
               <Link
-                href={`/workflow/editor/${workflow.id}`}
+                href={`/workflows/${workflow.id}`}
                 className="flex items-center hover:underline"
               >
                 {workflow.name}
               </Link>
               {isDraft && (
                 <span className="ml-2 px-2 py-0.5 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
-                  Draft
+                  Complete
                 </span>
               )}
             </h3>
@@ -65,7 +56,7 @@ function WorkflowCard({ workflow }: { workflow: Workflow }) {
         </div>
         <div className="flex items-center space-x-2">
           <Link
-            href={`/workflow/editor/${workflow.id}`}
+            href={`/workflows/${workflow.id}`}
             className={cn(
               buttonVariants({
                 variant: "outline",
@@ -90,7 +81,7 @@ function WorkflowActions({workflowName, workflowId}: {workflowName: string, work
     <>
       <DeleteWorkflowDialog
               open={showDeleteDialog}
-              setOpen={setShowDeleteDialog} workflowName={workflowName} workflowId={workflowId}      />
+              setOpen={setShowDeleteDialog} workflowName={workflowName} workflowId={workflowId}/>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant={"outline"} size={"sm"}>
